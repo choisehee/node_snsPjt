@@ -10,9 +10,9 @@ const nunjucks=require('nunjucks'); //퍼그 html 문법 변화에 적응하기 
 
 
 const { sequelize } = require('./models');
-// const indexRouter = require('./routes');
-// const usersRouter = require('./routes/users');
-// const commentsRouter = require('./routes/comments');
+const indexRouter = require('./routes');
+const usersRouter = require('./routes/users');
+const commentsRouter = require('./routes/comments');
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -20,7 +20,7 @@ const { sequelize } = require('./models');
 
 // dotenv.config();
 
-var app = express();// 익스프레스 내부 http 모듈에 내장되어 있으므로 서버가
+const app = express();// 익스프레스 내부 http 모듈에 내장되어 있으므로 서버가
 
 app.set('port',process.env.PORT || 3001);
 
@@ -81,8 +81,9 @@ app.use(express.urlencoded({ extended: false }));//주소 형식으로 데이터
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //static미들웨어는 정적인 파일들을 제공하는 라우터 역할
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/comments', commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -91,6 +92,8 @@ app.use(function(req, res, next) {
     next(error);
   // next(createError(404));
 });
+
+
 
 // error handler 에러처리 미들웨어 모든 매개변수를 사용하지 않더라도 매개변수가 반드시 네개여야 합니다
 //err는 에러에 관한 정보가 담겨 있습니다
